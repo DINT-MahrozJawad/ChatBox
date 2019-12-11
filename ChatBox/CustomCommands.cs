@@ -19,5 +19,25 @@ namespace ChatBox
                 new KeyGesture(Key.S, ModifierKeys.Control)
             }
         );
+        public static readonly RoutedUICommand Configuracion = new RoutedUICommand
+        (
+            "Configuracion",
+            "Configuracion",
+            typeof(CustomCommands),
+            new InputGestureCollection()
+            {
+                new KeyGesture(Key.C, ModifierKeys.Control)
+            }
+        );
+        public static readonly RoutedUICommand ComprobarConexion = new RoutedUICommand
+        (
+            "ComprobarConexion",
+            "ComprobarConexion",
+            typeof(CustomCommands),
+            new InputGestureCollection()
+            {
+                new KeyGesture(Key.O, ModifierKeys.Control)
+            }
+        );
     }
 }

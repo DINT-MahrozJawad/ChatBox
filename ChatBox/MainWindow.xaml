@@ -14,6 +14,21 @@
             CanExecute="NewCommandBinding_CanExecute"
             />
         <CommandBinding
+            Command="ApplicationCommands.Save"
+            Executed="SaveCommandBinding_Executed"
+            CanExecute="SaveCommandBinding_CanExecute"
+            />
+        <CommandBinding
+            Command="local:CustomCommands.Configuracion"
+            Executed="ConfiguracionCommandBinding_Executed"
+            CanExecute="ConfiguracionCommandBinding_CanExecute"
+            />
+        <CommandBinding
+            Command="local:CustomCommands.ComprobarConexion"
+            Executed="ComprobarConexionCommandBinding_Executed"
+            CanExecute="ComprobarConexionCommandBinding_CanExecute"
+            />
+        <CommandBinding
             Command="local:CustomCommands.Salir"
             Executed="SalirCommandBinding_Executed"
             CanExecute="SalirCommandBinding_CanExecute"
@@ -29,7 +44,7 @@
                         <Image Source="Assets/charla.png"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Guardar Conversación" InputGestureText="CTRL+G">
+                <MenuItem Command="ApplicationCommands.Save" Header="_Guardar Conversación" InputGestureText="CTRL+G">
                     <MenuItem.Icon>
                         <Image Source="Assets/guardar.png"></Image>
                     </MenuItem.Icon>
@@ -41,12 +56,12 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Herramientas">
-                <MenuItem Header="Configuración..." InputGestureText="Ctrl+C">
+                <MenuItem Command="local:CustomCommands.Configuracion" Header="Configuración..." InputGestureText="Ctrl+C">
                     <MenuItem.Icon>
                         <Image Source="Assets/guardar.png"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Comprobar Conexión" InputGestureText="Ctrl+O">
+                <MenuItem Command="local:CustomCommands.ComprobarConexion" Header="Comprobar Conexión" InputGestureText="Ctrl+O">
                     <MenuItem.Icon>
                         <Image Source="Assets/tick.png"></Image>
                     </MenuItem.Icon>
@@ -58,14 +73,14 @@
                 <Button Command="ApplicationCommands.New" ToolTip="Nueva Conversación">
                     <Image Height="24" Width="24"  Source="Assets/charla.png"></Image>
                 </Button>
-                <Button ToolTip="Guardar Conversación">
+                <Button Command="ApplicationCommands.Save" ToolTip="Guardar Conversación">
                     <Image Height="24" Width="24" Source="Assets/guardar.png"></Image>
                 </Button>
                 <Separator/>
-                <Button ToolTip="Configuración">
+                <Button Command="local:CustomCommands.Configuracion" ToolTip="Configuración">
                     <Image Height="24" Width="24"  Source="Assets/configuracion.png"></Image>
                 </Button>
-                <Button ToolTip="Comprobar Conexión">
+                <Button Command="local:CustomCommands.ComprobarConexion" ToolTip="Comprobar Conexión">
                     <Image Height="24" Width="24" Source="Assets/tick.png"></Image>
                 </Button>
                 <Separator/>
