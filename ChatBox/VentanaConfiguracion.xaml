@@ -6,20 +6,31 @@
         xmlns:local="clr-namespace:ChatBox"
         mc:Ignorable="d"
         Title="VentanaConfiguracion" Height="220" Width="400" Icon="Assets/configuracion.png" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
+
+    <Window.Resources>
+        <DataTemplate x:Key="ComboBoxTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Rectangle Width="30" Height="30" Fill="{Binding}"></Rectangle>
+                <TextBlock VerticalAlignment="Center" Text=" "></TextBlock>
+                <TextBlock VerticalAlignment="Center" Text="{Binding}"></TextBlock>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+
     <Grid>
         <StackPanel Orientation="Vertical">
             <StackPanel Margin="10,0,10,0" Orientation="Horizontal">
                 <TextBlock VerticalAlignment="Center" Margin="10" Width="100">Color de fondo</TextBlock>
-                <ComboBox ItemsSource="{Binding}" x:Name="ComboBoxColores1" Margin="10,10,10,10" Width="225"></ComboBox>
+                <ComboBox ItemTemplate="{StaticResource ComboBoxTemplate}" ItemsSource="{Binding}" x:Name="ComboBoxColores1" Margin="10,10,10,10" Width="225"></ComboBox>
             </StackPanel>
             <StackPanel Margin="10,0,10,0" Orientation="Horizontal">
                 <TextBlock VerticalAlignment="Center" Margin="10" Width="100">Color de usuario</TextBlock>
-                <ComboBox ItemsSource="{Binding}" x:Name="ComboBoxColores2" Margin="10,10,10,10" Width="225">
+                <ComboBox ItemTemplate="{StaticResource ComboBoxTemplate}" ItemsSource="{Binding}" x:Name="ComboBoxColores2" Margin="10,10,10,10" Width="225">
                 </ComboBox>
             </StackPanel>
             <StackPanel Margin="10,0,10,0" Orientation="Horizontal">
                 <TextBlock VerticalAlignment="Center" Margin="10" Width="100">Color de robot</TextBlock>
-                <ComboBox ItemsSource="{Binding}" x:Name="ComboBoxColores3" Margin="10,10,10,10" Width="225"></ComboBox>
+                <ComboBox ItemTemplate="{StaticResource ComboBoxTemplate}" ItemsSource="{Binding}" x:Name="ComboBoxColores3" Margin="10,10,10,10" Width="225"></ComboBox>
             </StackPanel>
 
             <DockPanel LastChildFill="False">

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,27 +24,11 @@ namespace ChatBox
         public VentanaConfiguracion()
         {
             InitializeComponent();
-            ObservableCollection<StackPanel> list = new ObservableCollection<StackPanel>();
+            ObservableCollection<string> list = new ObservableCollection<string>();
             
-            foreach (var item in typeof(Colors).GetProperties())
+            foreach (PropertyInfo item in typeof(Colors).GetProperties())
             {
-                StackPanel sp = new StackPanel();
-                sp.Orientation = Orientation.Horizontal;
-                sp.Margin = new Thickness(10);
-
-                Rectangle rectangle = new Rectangle();
-                Brush b = (Brush) new BrushConverter().ConvertFromString(item.Name);
-                rectangle.Fill = b;
-                rectangle.Margin = new Thickness(0, 0, 10, 0);
-                rectangle.Width = 10;
-                rectangle.Height = 10;
-                sp.Children.Add(rectangle);
-                TextBlock textBlock = new TextBlock
-                {
-                    Text = item.Name
-                };
-                sp.Children.Add(textBlock);
-                list.Add(sp);
+                list.Add(item.Name);
             }
 
 

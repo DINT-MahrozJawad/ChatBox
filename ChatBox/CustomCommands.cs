@@ -39,5 +39,15 @@ namespace ChatBox
                 new KeyGesture(Key.O, ModifierKeys.Control)
             }
         );
+        public static readonly RoutedUICommand ImagenEnviar = new RoutedUICommand
+        (
+            "ImagenEnviar",
+            "ImagenEnviar",
+            typeof(CustomCommands),
+            new InputGestureCollection()
+            {
+                new KeyGesture(Key.Enter)
+            }
+        );
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -21,20 +22,23 @@ namespace ChatBox
     /// </summary>
     public partial class MainWindow : Window
     {
+        public ObservableCollection<TextBlock> Lista { get; set; }
         public MainWindow()
         {
-            listaPrincipal = new ListBox();
+            Lista = new ObservableCollection<TextBlock>();
             InitializeComponent();
+            listaPrincipal.DataContext = Lista;
+
         }
 
         private void NewCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            listaPrincipal.Items.Clear();
+            Lista.Clear();
         }
 
         private void NewCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (listaPrincipal.Items.Count > 0)
+            if (Lista.Count > 0)
                 e.CanExecute = true;
             else
                 e.CanExecute = false;
@@ -58,9 +62,9 @@ namespace ChatBox
                 // Create a file to write to.
                 using (StreamWriter sw = File.CreateText(ruta))
                 {
-                    for (int i = 0; i < listaPrincipal.Items.Count; i++)
+                    for (int i = 0; i < Lista.Count; i++)
                     {
-                        sw.WriteLine(listaPrincipal.Items.GetItemAt(i));
+                        sw.WriteLine(Lista.ElementAt(i));
                     }
                 }
             }
@@ -68,7 +72,7 @@ namespace ChatBox
 
         private void SaveCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (listaPrincipal.Items.Count > 0)
+            if (Lista.Count > 0)
             {
                 e.CanExecute = true;
             }
@@ -93,6 +97,37 @@ namespace ChatBox
         private void ComprobarConexionCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
 
+        }
+
+        private async void ImagenEnviarCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            TextBlock tb = new TextBlock();
+            tb.Text = MensajeUsuario.Text;
+            tb.Tag = "Usuario";
+            Lista.Add(tb);
+
+            tb = new TextBlock();
+            tb.Text = "Procesando";
+            Lista.Add(tb);
+
+            Robot robot = new Robot();
+            string respuesta = await robot.RespuestaRobotAsync(tb.Text);
+            Lista.RemoveAt(Lista.Count - 1);
+            tb = new TextBlock();
+            tb.Text = respuesta;
+            tb.Tag = "Robot";
+            Lista.Add(tb);
+
+        }
+
+        private void ImagenEnviarCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (MensajeUsuario.Text != "")
+            {
+                e.CanExecute = true;
+            }
+            else
+                e.CanExecute = false;
         }
     }
 }
