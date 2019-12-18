@@ -50,7 +50,7 @@
             <Setter Property="BorderBrush" Value="Black"></Setter>
             <Setter Property="BorderThickness" Value="3"></Setter>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding ElementName=TextBlockQA, Path=Tag}" Value="Robot">
+                <DataTrigger Binding="{Binding Path=Emisor}"  Value="Robot">
                     <Setter Property="HorizontalAlignment" Value="Right"></Setter>
                 </DataTrigger>
             </Style.Triggers>
@@ -60,32 +60,34 @@
             <Setter Property="Height" Value="24"></Setter>
             <Setter Property="Source" Value="Assets/usuario.jpg"></Setter>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding ElementName=TextBlockQA, Path=Tag}"  Value="Robot">
+                <DataTrigger Binding="{Binding Path=Emisor}"  Value="Robot">
                     <Setter Property="Source" Value="Assets/robot.jpg"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
 
         <Style TargetType="TextBlock" x:Key="TexBlockQA">
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="HorizontalAlignment" Value="Center"></Setter>
             <Setter Property="FontWeight" Value="bold"></Setter>
             <Setter Property="Margin" Value="10,0,0,0"></Setter>
             <Setter Property="Text" Value="Usuario"></Setter>
             <Style.Triggers>
-                <Trigger Property="Tag" Value="Robot">
+                <DataTrigger Binding="{Binding Path=Emisor}"  Value="Robot">
                     <Setter Property="Text" Value="Robot"></Setter>
-                </Trigger>
+                    <Setter Property="Background" Value="{Binding }"></Setter>
+                </DataTrigger>
             </Style.Triggers>
         </Style>
 
         <DataTemplate x:Key="ListaPrincipalTemplate">
-            <Border Style="{StaticResource BorderTrigger}">
+            <Border Margin="10" Style="{StaticResource BorderTrigger}">
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
                         <Image Style="{StaticResource ImagenTrigger}"></Image>
-                        <TextBlock x:Name="TextBlockQA" Style="{StaticResource TexBlockQA}"></TextBlock>
+                        <TextBlock Text="{Binding Path=Emisor}" Style="{StaticResource TexBlockQA}"></TextBlock>
                     </StackPanel>
-                    <TextBlock Text="{Binding Path=Text}"></TextBlock>
+                    <TextBlock Text="{Binding Path=Msg}"></TextBlock>
                 </StackPanel>
             </Border>
         </DataTemplate>
@@ -155,6 +157,9 @@
                 <Image Source="Assets/mail.png"></Image>
             </Button>
         </Grid>
-        <ListBox ItemsSource="{Binding}" ItemTemplate="{StaticResource ListaPrincipalTemplate}" x:Name="listaPrincipal"></ListBox>
+        <ScrollViewer Margin="10" x:Name="scroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding}" ItemTemplate="{StaticResource ListaPrincipalTemplate}" x:Name="listaPrincipal"></ItemsControl>
+        </ScrollViewer>
+        
     </DockPanel>
 </Window>

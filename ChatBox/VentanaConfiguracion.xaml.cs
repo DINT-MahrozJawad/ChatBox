@@ -30,15 +30,17 @@ namespace ChatBox
             {
                 list.Add(item.Name);
             }
-
-
+            
             ComboBoxColores1.DataContext = list;
             ComboBoxColores2.DataContext = list;
             ComboBoxColores3.DataContext = list;
+
+            ComboBoxColores1.SelectedItem = Properties.Settings.Default.ColorFondo;
         }
 
         private void Button_Click_Aceptar(object sender, RoutedEventArgs e)
         {
+            ComboBoxColores1.SelectedItem = Properties.Settings.Default.ColorFondo;
             this.Close();
         }
 

@@ -22,12 +22,13 @@ namespace ChatBox
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<TextBlock> Lista { get; set; }
+        public ObservableCollection<Mensaje> Lista { get; set; }
         public MainWindow()
         {
-            Lista = new ObservableCollection<TextBlock>();
+            Lista = new ObservableCollection<Mensaje>();
             InitializeComponent();
             listaPrincipal.DataContext = Lista;
+            MensajeUsuario.Focus();
 
         }
 
@@ -56,7 +57,7 @@ namespace ChatBox
 
         private void SaveCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            string ruta = "chat.txt";
+            string ruta = "C:/Users/alumno/chat.txt";
             if (!File.Exists(ruta))
             {
                 // Create a file to write to.
@@ -64,7 +65,12 @@ namespace ChatBox
                 {
                     for (int i = 0; i < Lista.Count; i++)
                     {
-                        sw.WriteLine(Lista.ElementAt(i));
+                        if (Lista.ElementAt(i).Emisor == "Robot")
+                            sw.WriteLine("Robot: " + Lista.ElementAt(i).Msg);
+                        else
+                            sw.WriteLine("Usuario: " + Lista.ElementAt(i).Msg);
+
+
                     }
                 }
             }
@@ -101,23 +107,23 @@ namespace ChatBox
 
         private async void ImagenEnviarCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            TextBlock tb = new TextBlock();
-            tb.Text = MensajeUsuario.Text;
-            tb.Tag = "Usuario";
-            Lista.Add(tb);
+            string mensaje = MensajeUsuario.Text;
+            Mensaje m = new Mensaje("Usuario", mensaje);
+            
+            Lista.Add(m);
+            
 
-            tb = new TextBlock();
-            tb.Text = "Procesando";
-            Lista.Add(tb);
+            m = new Mensaje("Robot", "Procesando");
+            Lista.Add(m);
 
             Robot robot = new Robot();
-            string respuesta = await robot.RespuestaRobotAsync(tb.Text);
+            string respuesta = await robot.RespuestaRobotAsync(mensaje);
             Lista.RemoveAt(Lista.Count - 1);
-            tb = new TextBlock();
-            tb.Text = respuesta;
-            tb.Tag = "Robot";
-            Lista.Add(tb);
+            m = new Mensaje("Robot", respuesta);
+            Lista.Add(m);
 
+            MensajeUsuario.Text = "";
+            scroll.ScrollToEnd();
         }
 
         private void ImagenEnviarCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)

@@ -75,6 +75,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Mensaje.cs" />
     <Compile Include="Robot.cs" />
     <Compile Include="VentanaConfiguracion.xaml.cs">
       <DependentUpon>VentanaConfiguracion.xaml</DependentUpon>
