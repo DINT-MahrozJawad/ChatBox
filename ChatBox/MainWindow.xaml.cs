@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -23,13 +24,14 @@ namespace ChatBox
     public partial class MainWindow : Window
     {
         public ObservableCollection<Mensaje> Lista { get; set; }
+        Robot robot;
         public MainWindow()
         {
             Lista = new ObservableCollection<Mensaje>();
             InitializeComponent();
             listaPrincipal.DataContext = Lista;
             MensajeUsuario.Focus();
-
+            robot = new Robot();
         }
 
         private void NewCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -57,23 +59,26 @@ namespace ChatBox
 
         private void SaveCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            string ruta = "C:/Users/alumno/chat.txt";
-            if (!File.Exists(ruta))
+            string txt = "";
+            
+            for (int i = 0; i < Lista.Count; i++)
             {
-                // Create a file to write to.
-                using (StreamWriter sw = File.CreateText(ruta))
-                {
-                    for (int i = 0; i < Lista.Count; i++)
-                    {
-                        if (Lista.ElementAt(i).Emisor == "Robot")
-                            sw.WriteLine("Robot: " + Lista.ElementAt(i).Msg);
-                        else
-                            sw.WriteLine("Usuario: " + Lista.ElementAt(i).Msg);
-
-
-                    }
-                }
+                if (Lista.ElementAt(i).Emisor == "Robot")
+                    txt += "Robot: " + Lista.ElementAt(i).Msg + "\n";
+                else
+                    txt += "Usuario: " + Lista.ElementAt(i).Msg + "\n";
             }
+            try
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                if (saveFileDialog.ShowDialog() == true)
+                    File.WriteAllText(saveFileDialog.FileName, txt);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("No se ha podido guradar el fichero por " + ex, "ChatBox", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            
         }
 
         private void SaveCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -102,7 +107,7 @@ namespace ChatBox
 
         private void ComprobarConexionCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-
+            robot.ComprobarConexionAsync();
         }
 
         private async void ImagenEnviarCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -111,18 +116,26 @@ namespace ChatBox
             Mensaje m = new Mensaje("Usuario", mensaje);
             
             Lista.Add(m);
-            
-
-            m = new Mensaje("Robot", "Procesando");
-            Lista.Add(m);
-
-            Robot robot = new Robot();
-            string respuesta = await robot.RespuestaRobotAsync(mensaje);
-            Lista.RemoveAt(Lista.Count - 1);
-            m = new Mensaje("Robot", respuesta);
-            Lista.Add(m);
 
             MensajeUsuario.Text = "";
+            m = new Mensaje("Robot", "Procesando");
+            Lista.Add(m);
+            string respuesta = "No soy robot";
+            try
+            {
+                respuesta = await robot.RespuestaRobotAsync(mensaje);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("No se ha podido conectar con el robot", "ChatBox", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                Lista.RemoveAt(Lista.Count - 1);
+                m = new Mensaje("Robot", respuesta);
+                Lista.Add(m);
+            }
+            
             scroll.ScrollToEnd();
         }
 

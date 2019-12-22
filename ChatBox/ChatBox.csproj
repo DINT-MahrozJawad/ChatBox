@@ -147,8 +147,10 @@
     <Resource Include="Assets\chatboxIcon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\robot.jpg" />
-    <Resource Include="Assets\usuario.jpg" />
+    <Resource Include="Assets\robot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\usuario.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

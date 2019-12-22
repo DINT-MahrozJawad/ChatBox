@@ -34,19 +34,38 @@ namespace ChatBox
             ComboBoxColores1.DataContext = list;
             ComboBoxColores2.DataContext = list;
             ComboBoxColores3.DataContext = list;
-
-            ComboBoxColores1.SelectedItem = Properties.Settings.Default.ColorFondo;
+            ConfiguracionInterna();
         }
 
         private void Button_Click_Aceptar(object sender, RoutedEventArgs e)
         {
-            ComboBoxColores1.SelectedItem = Properties.Settings.Default.ColorFondo;
+            Properties.Settings.Default.ColorFondo = ComboBoxColores1.SelectedValue.ToString();
+            Properties.Settings.Default.ColorUsuario = ComboBoxColores2.SelectedValue.ToString();
+            Properties.Settings.Default.ColorRobot = ComboBoxColores3.SelectedValue.ToString();
+            Properties.Settings.Default.Save();
             this.Close();
         }
 
         private void Button_Click_Cancelar(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F)
+                ComboBoxColores1.Focus();
+            if (e.Key == Key.U)
+                ComboBoxColores2.Focus();
+            if (e.Key == Key.R)
+                ComboBoxColores3.Focus();
+               
+        }
+        private void ConfiguracionInterna()
+        {
+            ComboBoxColores1.SelectedItem = Properties.Settings.Default.ColorFondo;
+            ComboBoxColores2.SelectedItem = Properties.Settings.Default.ColorUsuario;
+            ComboBoxColores3.SelectedItem = Properties.Settings.Default.ColorRobot;
         }
     }
 }

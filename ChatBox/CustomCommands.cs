@@ -49,5 +49,15 @@ namespace ChatBox
                 new KeyGesture(Key.Enter)
             }
         );
+        public static readonly RoutedUICommand Guardar = new RoutedUICommand
+        (
+            "Guardar",
+            "Guardar",
+            typeof(CustomCommands),
+            new InputGestureCollection()
+            {
+                new KeyGesture(Key.G, ModifierKeys.Control)
+            }
+        );
     }
 }
